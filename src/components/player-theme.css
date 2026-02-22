@@ -1,0 +1,110 @@
+/* src/components/player-theme.css */
+
+/* 1. Frosted Glass Control Bar */
+.gemini-player .vjs-control-bar {
+  background: rgba(19, 19, 20, 0.7) !important; /* Transparent Gemini Base */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  height: 3.5em !important; /* Slightly taller for breathing room */
+}
+
+/* 2. Sleek Big Play Button (Center of screen before playing) */
+.gemini-player .vjs-big-play-button {
+  background-color: rgba(30, 30, 32, 0.8) !important; /* Gemini Surface */
+  backdrop-filter: blur(8px);
+  border: 2px solid #333639 !important; /* Gemini Border */
+  border-radius: 50% !important; /* Perfect circle */
+  width: 80px !important;
+  height: 80px !important;
+  line-height: 76px !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  transition: all 0.3s ease !important;
+}
+
+.gemini-player:hover .vjs-big-play-button {
+  border-color: #a8c7fa !important; /* Gemini Accent */
+  color: #a8c7fa !important;
+  transform: translate(-50%, -50%) scale(1.1) !important;
+  background-color: rgba(30, 30, 32, 0.95) !important;
+}
+
+/* 3. The Resolution & Playback Speed Menus */
+.gemini-player .vjs-menu-button .vjs-menu .vjs-menu-content {
+  background-color: #1e1e20 !important; /* Gemini Surface */
+  border: 1px solid #333639 !important; /* Gemini Border */
+  border-radius: 12px !important;
+  padding: 8px 0 !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.7) !important;
+  bottom: 12px !important; /* Lift slightly off control bar */
+  width: 110px !important; /* Uniform width for the popup */
+  left: 50% !important;
+  transform: translateX(-50%) !important; /* Center popup over its button */
+  font-family: inherit !important;
+}
+
+/* 4. Menu Items (1080p, 720p, 1x, 2x, etc.) */
+.gemini-player .vjs-menu-item {
+  color: #e3e3e3 !important;
+  font-size: 14px !important;
+  text-transform: capitalize !important;
+  padding: 8px 0 !important;
+  margin: 2px 8px !important; /* Gap from the edges of the box */
+  border-radius: 6px !important;
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  justify-content: center !important; /* Perfect center alignment */
+  align-items: center !important;
+}
+
+/* Nuke the default checkmarks and ugly icons completely */
+.gemini-player .vjs-menu-item::before,
+.gemini-player .vjs-menu-item.vjs-selected::before,
+.gemini-player .vjs-menu-item .vjs-menu-item-text::before,
+.gemini-player .vjs-menu-item .vjs-icon-placeholder {
+  display: none !important;
+  content: none !important;
+}
+
+/* Hover state for menu items */
+.gemini-player .vjs-menu-item:hover,
+.gemini-player .vjs-menu-item:focus {
+  background-color: #333639 !important; /* Gemini Border used as hover */
+  color: #ffffff !important;
+  outline: none !important;
+  text-shadow: none !important;
+}
+
+/* Selected Resolution/Speed (Active state) */
+.gemini-player .vjs-menu-item.vjs-selected {
+  background-color: rgba(168, 199, 250, 0.15) !important;
+  color: #a8c7fa !important; /* Gemini Accent */
+  font-weight: 600 !important;
+}
+
+/* 5. Progress Bar Polish */
+.gemini-player .vjs-play-progress {
+  background-color: #a8c7fa !important; /* Gemini Accent */
+}
+.gemini-player .vjs-play-progress::before {
+  color: #a8c7fa !important; /* The little knob on the slider */
+  font-size: 1.2em !important;
+  top: -0.3em !important;
+}
+.gemini-player .vjs-slider {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  border-radius: 4px !important;
+}
+.gemini-player .vjs-load-progress {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+}
+.gemini-player .vjs-load-progress div {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* 6. Hide default Video.js Error Display */
+.gemini-player .vjs-error-display {
+  display: none !important;
+}
