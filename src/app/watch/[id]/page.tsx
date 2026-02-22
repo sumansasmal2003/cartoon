@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { Calendar, Tv, Upload, ChevronLeft, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
+// Helper to format date cleanly
 const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString('en-US', {
     year: 'numeric',
@@ -18,16 +19,19 @@ export default async function WatchPage({
 }: {
   params: Promise<{ id: string }>
 }) {
+  // Unwrap the params Promise (Next.js 15 requirement)
   const { id } = await params;
 
   await connectToDatabase();
 
+  // Fetch the main video using the unwrapped ID
   const video = await Video.findOne({ publicId: id }).lean();
 
   if (!video) {
     notFound();
   }
 
+  // Fetch a few other videos for the "Up Next" sidebar and end-screen
   const recommendedVideos = await Video.find({ _id: { $ne: video._id } })
     .sort({ createdAt: -1 })
     .limit(5)
@@ -35,6 +39,13 @@ export default async function WatchPage({
 
   // Check the status of the video from our database
   const isProcessing = video.status === 'processing';
+
+  // Format the recommendations so they are safe to pass to the Client Component player
+  const playerRecs = recommendedVideos.map((v: any) => ({
+    publicId: v.publicId,
+    title: v.title,
+    thumbnailUrl: v.thumbnailUrl || ''
+  }));
 
   return (
     <div className="min-h-screen bg-gemini-bg flex flex-col">
@@ -78,7 +89,7 @@ export default async function WatchPage({
           ) : (
             <CartoonPlayer
               publicId={video.publicId}
-              title={video.title}
+              recommendations={playerRecs}
             />
           )}
 
@@ -116,18 +127,21 @@ export default async function WatchPage({
           <div className="flex flex-col gap-4">
             {recommendedVideos.map((rec: any) => (
               <Link href={`/watch/${rec.publicId}`} key={rec._id.toString()} className="group flex gap-3 items-start">
+                {/* Thumbnail */}
                 <div className="relative w-40 aspect-video rounded-lg overflow-hidden flex-shrink-0 bg-gemini-surface border border-gemini-border">
                   <img
                     src={rec.thumbnailUrl || '/api/placeholder/320/180'}
                     alt={rec.title}
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
+                  {/* Processing overlay for sidebar thumbnails */}
                   {rec.status === 'processing' && (
                     <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
                        <Loader2 className="w-6 h-6 text-white animate-spin" />
                     </div>
                   )}
                 </div>
+                {/* Info */}
                 <div className="flex flex-col overflow-hidden">
                   <h4 className="text-gemini-text font-medium text-sm line-clamp-2 leading-snug group-hover:text-gemini-accent transition-colors">
                     {rec.title}
