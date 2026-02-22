@@ -45,7 +45,6 @@ export default function CartoonPlayer({ publicId, title }: CartoonPlayerProps) {
           text: '#e3e3e3',
           accent: '#a8c7fa',
         }}
-        title={title}
         logo={false}
         fluid
         playbackRates={[0.5, 1, 1.25, 1.5, 2]}
